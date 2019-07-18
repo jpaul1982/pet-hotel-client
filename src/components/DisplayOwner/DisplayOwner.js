@@ -43,7 +43,7 @@ class DisplayOwner extends Component {
                 {this.state.owners && this.state.owners.map(owner => 
                     <TableRow key={owner.id}>
                         <TableCell>{owner.name}</TableCell>
-                        <TableCell>1</TableCell>
+                        <TableCell>{owner.count}</TableCell>
                         <TableCell><button>Delete</button></TableCell>
                     </TableRow>
                 )}

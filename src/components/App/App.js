@@ -3,7 +3,7 @@ import axios from 'axios';
 
 class App extends Component {
     componentDidMount() {
-      axios.get('/api')
+      axios.get('/api/owners')
       .then(
         response => {
           console.log(response.data)

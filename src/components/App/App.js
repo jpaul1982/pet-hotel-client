@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import DisplayOwner from '../DisplayOwner/DisplayOwner';
+import DisplayPet from '../DisplayPets/DisplayPets';
+
 
 class App extends Component {
     
@@ -11,6 +13,7 @@ class App extends Component {
         <Router>
           {/* <Route path="/" exact component={}/> */}
           <Route path="/owner" exact component={DisplayOwner}/>
+          <Route path="/pet" exact component={DisplayPet} />
         </Router>
       </div>
     );

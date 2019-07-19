@@ -13,6 +13,36 @@ class PetTable extends Component {
 
     state = {}
 
+    //function to toggle check in/check out status
+    handleCheckout = (pet) => {
+        console.log('in handle checkout')
+        fetch('/api/checkout', {
+            method: 'PUT',
+            body: JSON.stringify({
+                newStatus: !pet.check_in,
+                petId: pet.id,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(
+            () => {
+                axios.get('/api/pets')
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({
+                        petList: response.data,
+                    })
+                })
+            }
+        )
+        if(pet.check_in) {
+            console.log('this pet will be checked out');
+        } else {
+            console.log('this pet will be checked in');
+        }
+    }
+
     componentDidMount() {
         axios.get('/api/pets')
             .then(response => {
@@ -49,9 +79,9 @@ class PetTable extends Component {
                                 <TableCell><button>Delete</button></TableCell>
                                 <TableCell>
                                     {pet.check_in ?
-                                        <button>Check Out</button>
+                                        <button onClick={() => {this.handleCheckout(pet)}}>Check Out</button>
                                         :
-                                        <button>Check In</button>
+                                        <button onClick={() => {this.handleCheckout(pet)}}>Check In</button>
                                     }
                                 </TableCell>
                             </TableRow>

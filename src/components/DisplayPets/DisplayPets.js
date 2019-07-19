@@ -17,6 +17,77 @@ class PetTable extends Component {
         owners: null,
     }
 
+    //function to toggle check in/check out status
+    handleCheckout = (pet) => {
+        console.log('in handle checkout')
+        fetch('/api/checkout', {
+            method: 'PUT',
+            body: JSON.stringify({
+                newStatus: !pet.check_in,
+                petId: pet.id,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then(
+            () => {
+                axios.get('/api/pets')
+                .then(response => {
+                    console.log(response.data);
+                    this.setState({
+                        petList: response.data,
+                    })
+                })
+            }
+        )
+        
+        if(!pet.check_in) {
+            // create new entry in visit table
+            console.log('this pet will be checked out');
+            fetch(`/api/checkout/${pet.id}`, {
+                method: 'POST',
+                // body: JSON.stringify({
+                //     newStatus: !pet.check_in,
+                //     petId: pet.id,
+                // }),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+                () => {
+                    axios.get('/api/pets')
+                    .then(response => {
+                        console.log(response.data);
+                        this.setState({
+                            petList: response.data,
+                        })
+                    })
+                })
+        } else {
+            //update existing visit with checkout date
+            console.log('this pet will be checked in');
+            fetch(`/api/checkout/${pet.id}`, {
+                method: 'PUT',
+                // body: JSON.stringify({
+                //     newStatus: !pet.check_in,
+                //     petId: pet.id,
+                // }),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+                () => {
+                    axios.get('/api/pets')
+                    .then(response => {
+                        console.log(response.data);
+                        this.setState({
+                            petList: response.data,
+                        })
+                    })
+                })
+        }
+    }
+
     componentDidMount() {
         this.getOwnersAndPets();
     }
@@ -40,31 +111,10 @@ class PetTable extends Component {
             )
     }
 
-    // getPets = () => {
-    //     axios.get('/api/pets')
-    //         .then(response => {
-    //             console.log(response.data);
-    //             this.setState({
-    //                 petList: response.data,
-    //             })
-    //         })
-    // }
-
-    // getOwners = () => {
-    //     axios.get('/api/owners')
-    //         .then(
-    //             response => {
-    //                 console.log(response.data);
-    //                 this.setState({
-    //                     owners: response.data,
-    //                 })
-    //             }
-    //         )
-    // }
-
     render() {
         return (
             <>
+                
                 {this.state.petList && this.state.owners &&
                     <>
                         <PetForm owners={this.state.owners} getOwnersAndPets={this.getOwnersAndPets}/>
@@ -91,9 +141,9 @@ class PetTable extends Component {
                                         <TableCell><button>Delete</button></TableCell>
                                         <TableCell>
                                             {pet.check_in ?
-                                                <button>Check Out</button>
+                                                <button onClick={() => {this.handleCheckout(pet)}}>Check Out</button>
                                                 :
-                                                <button>Check In</button>
+                                                <button onClick={() => {this.handleCheckout(pet)}}>Check In</button>
                                             }
                                         </TableCell>
                                     </TableRow>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { HashRouter as Router, Route } from 'react-router-dom';
 import DisplayOwner from '../DisplayOwner/DisplayOwner';
 import DisplayPet from '../DisplayPets/DisplayPets';

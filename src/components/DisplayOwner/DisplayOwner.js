@@ -92,43 +92,45 @@ class DisplayOwner extends Component {
     }
     
 
-  render() {
-    return (
-      <div className="App">
-        {/* {JSON.stringify(this.state)} */}
-        <h2>Add Owner</h2>
-        <TextField
-            id="standard-name"
-            label="Name"
-            value={this.state.newOwner.name}
-            onChange={this.handleChange}
-            margin="normal"
-            variant="outlined"
-      />
-      <br />
-      <Button variant="contained" color="primary" onClick={this.handleSubmit}>Submit</Button>
-        <h2>Owners</h2>
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Number of Pets</TableCell>
-                    <TableCell>Actions</TableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {this.state.owners && this.state.owners.map(owner => 
-                    <TableRow key={owner.id}>
-                        <TableCell>{owner.name}</TableCell>
-                        <TableCell>{owner.count}</TableCell>
-                        <TableCell><button onClick={() => this.handleDelete(owner)}>Delete</button></TableCell>
-                    </TableRow>
-                )}
-            </TableBody>
-        </Table>
-      </div>
-    );
-  }
+    render() {
+      return (
+        <div className="App">
+          {/* {JSON.stringify(this.state)} */}
+          <h2>Add Owner</h2>
+          <TextField
+              id="standard-name"
+              label="Name"
+              value={this.state.newOwner.name}
+              onChange={this.handleChange}
+              margin="normal"
+              variant="outlined"
+        />
+        <br />
+        <Button variant="contained" color="primary" onClick={this.handleSubmit}>Add Owner</Button>
+          <h2>Owners</h2>
+          { this.state.owners &&
+            <Table>
+              <TableHead>
+                  <TableRow>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Number of Pets</TableCell>
+                      <TableCell>Actions</TableCell>
+                  </TableRow>
+              </TableHead>
+              <TableBody>
+                  {this.state.owners.map(owner => 
+                      <TableRow key={owner.id}>
+                          <TableCell>{owner.name}</TableCell>
+                          <TableCell>{owner.count}</TableCell>
+                          <TableCell><button onClick={() => this.handleDelete(owner)}>Delete</button></TableCell>
+                      </TableRow>
+                  )}
+              </TableBody>
+          </Table>
+          }
+        </div>
+      );
+    }
 }
 
 export default DisplayOwner;

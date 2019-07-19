@@ -12,14 +12,14 @@ import Button from '@material-ui/core/Button';
 
 
 class DisplayOwner extends Component {
-
+//local state to store the list of existing owners and the new owner input
     state ={
         owners: '',
         newOwner: {
             name: '',
         },
     }
-
+//function to get all owners from db
     getOwners = () => {
         axios.get('/api/owners')
         .then(
@@ -32,11 +32,11 @@ class DisplayOwner extends Component {
       )
 
     }
-
+//run getOwners on page load
     componentDidMount() {
         this.getOwners();    
     }
-
+//function to get the input
     handleChange = (event) => {
         this.setState({
             newOwner: {
@@ -44,7 +44,7 @@ class DisplayOwner extends Component {
             }
         })
     }
-
+//function to make a post request to post new owner
     handleSubmit = () => {
         console.log('in submit');
         // axios.post('/api/owners', {
@@ -71,10 +71,31 @@ class DisplayOwner extends Component {
         )
     }
 
+    //function to make a delete request to delete a owner
+    handleDelete = (owner) => {
+        if(owner.count) {
+            alert('Cannot delete owner with pet');
+            return;
+        } else {
+            console.log(owner);
+            fetch(`/api/owners/${owner.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+                () => {
+                    this.getOwners();
+                }
+            )
+        }
+    }
+    
+
   render() {
     return (
       <div className="App">
-        {JSON.stringify(this.state)}
+        {/* {JSON.stringify(this.state)} */}
         <h2>Add Owner</h2>
         <TextField
             id="standard-name"
@@ -100,7 +121,7 @@ class DisplayOwner extends Component {
                     <TableRow key={owner.id}>
                         <TableCell>{owner.name}</TableCell>
                         <TableCell>{owner.count}</TableCell>
-                        <TableCell><button>Delete</button></TableCell>
+                        <TableCell><button onClick={() => this.handleDelete(owner)}>Delete</button></TableCell>
                     </TableRow>
                 )}
             </TableBody>

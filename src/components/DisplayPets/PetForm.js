@@ -116,7 +116,7 @@ class PetForm extends Component {
                         </FormControl>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button onClick={this.handleSubmit} variant="contained" color="primary">Submit</Button>
+                        <Button onClick={this.handleSubmit} variant="contained" color="primary">Add Pet</Button>
                     </Grid>
                 </Grid>
 

@@ -60,7 +60,27 @@ class PetTable extends Component {
                     })
                 })
         } else {
+            //update existing visit with checkout date
             console.log('this pet will be checked in');
+            fetch(`/api/checkout/${pet.id}`, {
+                method: 'PUT',
+                // body: JSON.stringify({
+                //     newStatus: !pet.check_in,
+                //     petId: pet.id,
+                // }),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+                () => {
+                    axios.get('/api/pets')
+                    .then(response => {
+                        console.log(response.data);
+                        this.setState({
+                            petList: response.data,
+                        })
+                    })
+                })
         }
     }
 

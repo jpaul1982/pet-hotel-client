@@ -36,8 +36,29 @@ class PetTable extends Component {
                 })
             }
         )
-        if(pet.check_in) {
+        
+        if(!pet.check_in) {
+            // create new entry in visit table
             console.log('this pet will be checked out');
+            fetch(`/api/checkout/${pet.id}`, {
+                method: 'POST',
+                // body: JSON.stringify({
+                //     newStatus: !pet.check_in,
+                //     petId: pet.id,
+                // }),
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then(
+                () => {
+                    axios.get('/api/pets')
+                    .then(response => {
+                        console.log(response.data);
+                        this.setState({
+                            petList: response.data,
+                        })
+                    })
+                })
         } else {
             console.log('this pet will be checked in');
         }
